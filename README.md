@@ -3,4 +3,9 @@ collector
 
 Simple email collector/pre launch landing page
 
-So far this is a placeholder for a simple email collection/pre launch landing page
+### How to use
+
+1. Clone this repo
+2. Add to your site root folder
+3. Customize as needed
+4. Collect emails
