@@ -9,3 +9,7 @@ Simple email collector/pre launch landing page
 2. Add to your site root folder
 3. Customize as needed
 4. Collect emails
+
+### Other Info
+
+Use vagrant up to spin up a local test version of collector.
