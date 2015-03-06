@@ -12,4 +12,4 @@ Simple email collector/pre launch landing page
 
 ### Other Info
 
-Use vagrant up to spin up a local test version of collector.
+Use `vagrant up` to start a local test version of collector.
