@@ -7,18 +7,21 @@
 		<script type="text/javascript" src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
 		<script type="text/javascript" src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js'></script>
     <script type="text/javascript" src='js/submit.js'></script>
+		<!-- Title -->
 		<title>collector | very basic email collection pre launch landing page</title>
 	</head>
 	<body>
       <div class="col-md-4"></div>
       <div class="col-md-4 main">
-        <!-- img here with logo class -->
+        <!-- Logo: use logo class on img -->
         <h1>LOGO HERE</h1>
+				<!-- Progress: update below percentage in both style and div or remove from div for no visible number display -->
         <div class="progress">
           <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 75%">
             75%
           </div>
         </div>
+				<!-- Descriptive Tag: Tagline here followed by lead/and smaller sub text if needed -->
         <h1>Descriptive Tag</h1>
         <p class="lead">
         Some sort of lead topic here for looking at and such
@@ -32,6 +35,7 @@
               <input type="text" class="form-control input-lg" id="email" name="email" placeholder="Enter Email">
             </div>
             <div class="col-md-4">
+							<!-- Submit Button: Can be changed to not read Submit! -->
               <button type="submit" class="btn btn-default btn-lg pull-left">Submit!</button>
             </div>
           </div>
