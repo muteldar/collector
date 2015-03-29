@@ -1,7 +1,7 @@
 collector
 ========
 
-Simple email collector/pre launch landing page
+Simple and highly customizable email collector/pre launch landing page
 
 ### How to use
 
