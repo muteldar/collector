@@ -4,19 +4,34 @@ var passport   = require('passport');
 var Strategy   = require('passport-local').Strategy;
 var session    = require('express-session');
 var fileStore  = require('session-file-store')(session);
-//var db         = require('./db');
 var bodyParser = require('body-parser');
 var fs         = require('fs');
+var sqlite3    = require('sqlite3').verbose();
+var os         = require('os');
 
 var args = process.argv.slice(2);
 
 if(args == "install")
 {
-  fs.stat('config.json', function(err, stat){
+  var dbLocation = null;
+  var db = null;
+
+  if(os.platform() == 'darwin' || os.platform() == 'linux')
+  {
+    dbLocation = 'db/db.db';
+  } else if (os.platform() == 'win32') {
+    dbLocation = 'db\\db.db';
+  }
+
+  fs.stat(dbLocation, function(err, stat){
     if(err == null){
       console.log('Install has already run');
       return 0;
     } else if(err.code == 'ENOENT') {
+      db = new sqlite3.Database(dbLocation);
+      db.serialize(function(){
+        db.run("CREATE TABLE IF NOT EXISTS users(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT NOT NULL, PASSWORD TEXT NOT NULL)");
+      });
       var prompt = require('prompt');
       var schema = {
         properties: {
@@ -44,20 +59,22 @@ if(args == "install")
          }
          if(result.password == result.confirm)
          {
-           fs.writeFile('config.json','user:' + result.username + ' password:' + result.confirm);
+           var stmt = db.prepare("INSERT INTO users (USERNAME, PASSWORD) VALUES ( :user, :password)");
+           stmt.bind(':user', 'result.username' );
+           stmt.bind(':password', 'result.confirm');
+           stmt.finalize();
          } else {
            console.log('Passwords do not match');
          }
       });
     } else {
       console.log('Err: ', err.code);
+      return 1;
     }
   });
 
-}
-
-if(args == "start")
-{
+} else if(args == "start") {
+  var db         = require('./db');
   passport.use(new Strategy(
     function(username, password, cb) {
       db.user.findByUsername(username, function(err, user) {
@@ -125,4 +142,7 @@ if(args == "start")
   app.listen(port);
 
   console.log("Listening on " + port)
+} else {
+  console.log("Install: node collector.js install");
+  console.log("Start:   node collector.js start");
 }
