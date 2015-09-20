@@ -60,11 +60,6 @@ if (dbLocation == 'Not Supported') {
             description: 'Confirm password',
             required: true,
             hidden: true
-          },
-          session: {
-            description:  'Session secret',
-            required: true,
-            hidden: true
           }
         }
       }
@@ -146,6 +141,7 @@ if (dbLocation == 'Not Supported') {
       app.use(session({
         store: new fileStore({logFn: function(){}}),
         secret: 'sessionSct',
+        cookie: { maxage: 60000 },
         resave: false,
         saveUninitialized: false
       }));
@@ -172,6 +168,12 @@ if (dbLocation == 'Not Supported') {
         successRedirect: '/admin',
         failureRedirect: '/login'
       }));
+
+      app.get('/logout', function (req, res){
+        req.session.destroy(function (err) {
+          res.redirect('/');
+        });
+      });
 
       app.use(express.static(__dirname + '/public'));
 
