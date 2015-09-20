@@ -225,6 +225,7 @@ if (dbLocation == 'Not Supported') {
     }
   });
 } else {
-  console.log("Install: node collector.js install");
-  console.log("Start:   node collector.js start");
+  console.log("Install:   node collector.js install");
+  console.log("Uninstall: node collector.js uninstall");
+  console.log("Start:     node collector.js start");
 }
