@@ -11,7 +11,8 @@ var bodyParser = require('body-parser');
 var fs         = require('fs');
 var os         = require('os');
 var sqlite3    = require('sqlite3').verbose();
-var passwordHS   = require('password-hash-and-salt');
+var passwordHS = require('password-hash-and-salt');
+var validator  = require('validator');
 //
 // Set dbLocation per supported OS
 //
@@ -76,6 +77,7 @@ if (dbLocation == 'Not Supported') {
            dbSetup = new sqlite3.Database(dbLocation);
            dbSetup.serialize(function(){
              dbSetup.run("CREATE TABLE IF NOT EXISTS users(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT NOT NULL, PASSWORD TEXT NOT NULL)");
+             dbSetup.run("CREATE TABLE IF NOT EXISTS email(ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT NOT NULL, TIMESTAMP DATETIME NOT NULL)")
            });
            var pass = result.confirm;
            var passHash = [];
@@ -120,7 +122,6 @@ if (dbLocation == 'Not Supported') {
       }));
 
       passport.serializeUser(function(user, cb) {
-        console.log(user);
         return cb(null, user.ID);
       });
 
@@ -164,6 +165,23 @@ if (dbLocation == 'Not Supported') {
         }
       );
 
+      app.get('/settings',
+        require('connect-ensure-login').ensureLoggedIn(),
+        function (req, res){
+          res.render('settings');
+      });
+
+      app.get('/email',
+        require('connect-ensure-login').ensureLoggedIn(),
+        function (req, res){
+          var emails = [];
+          db.each('SELECT email FROM email', function(err, entry) {
+            emails.push(entry);
+          }, function(err, entries){
+            res.render('email', {emails: entries});
+          });
+        });
+
       app.post('/login', passport.authenticate('local', {
         successRedirect: '/admin',
         failureRedirect: '/login'
@@ -175,11 +193,35 @@ if (dbLocation == 'Not Supported') {
         });
       });
 
+      app.post('/collect', function(req, res){
+        var email = req.body.email;
+        if(validator.isEmail(email))
+        {
+          var time = (new Date).getTime();
+          db.get('SELECT email FROM email WHERE email = ?', email, function(err, row) {
+            if(!row){
+             db.serialize(function(){
+               var stmt = db.prepare("INSERT INTO email (EMAIL, TIMESTAMP) VALUES (?,?)");
+               stmt.run(email, time);
+               stmt.finalize();
+               email, time = null;
+             });
+             res.send("1");
+           } else {
+             res.send("2");
+           }
+          });
+        } else {
+          res.send("0");
+        }
+
+      });
+
       app.use(express.static(__dirname + '/public'));
 
       app.listen(port);
 
-      console.log("Listening on " + port)
+      console.log("Listening on " + port);
     } else if(err.code == 'ENOENT') {
       console.log('Run "node collector.js install" before running start');
       return 1;
@@ -195,7 +237,7 @@ if (dbLocation == 'Not Supported') {
       var uninstallSchema = {
         properties: {
           confirm: {
-            description: 'Type confirm to confirm delete of database',
+            description: 'Type confirm to confirm delete of database :',
             required: true
           }
         }

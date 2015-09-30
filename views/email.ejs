@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <% include head %>
+  <body>
+    <% include nav %>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h1>E-Mail</h1>
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>E-Mail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% emails.forEach(function(email) { %>
+                  <tr>
+                    <th></th>
+                    <td><%= email %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+  </body>
+</html>

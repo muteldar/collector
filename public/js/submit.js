@@ -11,7 +11,7 @@ $("document").ready(function() {
         type: 'POST',
         data: { email : email },
         success: function(response){
-          var switchItem = response.
+          var switchItem = response;
           switch (switchItem) {
             case "0":
               div.empty();

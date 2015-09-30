@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <% include head %>
-	<body>
-		<% include nav %>
-	  <div class="row">
+  <body>
+    <% include nav %>
+    <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-4">
+      <div class="col-md-8">
 				<div class="panel panel-default">
           <div class="panel-heading">
-            <h1>Page Settings</h1>
+            <h1>Settings</h1>
 				  </div>
 				  <div class="panel-body">
 				    <form>
@@ -16,6 +16,10 @@
                 <div class="form-group">
 									<label for="pagename">Page Name</label>
                   <input type="text" class="form-control input-lg" name="pagename" placeholder="Page Name">
+                </div>
+                <div class="form-group">
+                  <label for="logo">Logo</label>
+                  <input type="text" class="form-control input-lg" name="logo" placeholder="Select Logo">
                 </div>
 								<div class="form-group">
 									<label for="FontSelection">Font-Family</label>
@@ -28,28 +32,15 @@
 										</option>
 									</select>
 								</div>
+                <div class="form-group">
+                  <label for="css">Custom CSS</label>
+                  <textarea class="form-control" rows="3" name="css"></textarea>
+                </div>
 					    </div>
 				    </form>
 			    </div>
 			  </div>
       </div>
-			<div class="col-md-4">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h1>Page Settings</h1>
-					</div>
-					<div class="panel-body">
-						<form>
-							<div class="row">
-								<div class="form-group">
-									<input type="text" class="form-control input-lg" name="username" placeholder="Username">
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
       <div class="col-md-2"></div>
-	  </div>
   </body>
 </html>
