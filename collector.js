@@ -175,10 +175,10 @@ if (dbLocation == 'Not Supported') {
         require('connect-ensure-login').ensureLoggedIn(),
         function (req, res){
           var emails = [];
-          db.each('SELECT email FROM email', function(err, entry) {
+          db.each('SELECT id, email FROM email', function(err, entry) {
             emails.push(entry);
           }, function(err, entries){
-            res.render('email', {emails: entries});
+            res.render('email', {emails: emails});
           });
         });
 

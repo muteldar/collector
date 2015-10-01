@@ -8,6 +8,15 @@
       <div class="col-md-8">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Export <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">csv</a></li>
+                <li><a href="#">text</a></li>
+              </ul>
+            </div>
             <h1>E-Mail</h1>
           </div>
           <div class="panel-body">
@@ -21,8 +30,8 @@
               <tbody>
                 <% emails.forEach(function(email) { %>
                   <tr>
-                    <th></th>
-                    <td><%= email %></td>
+                    <th><%= email.ID %></th>
+                    <td><%= email.EMAIL %></td>
                   </tr>
                 <% }); %>
               </tbody>
